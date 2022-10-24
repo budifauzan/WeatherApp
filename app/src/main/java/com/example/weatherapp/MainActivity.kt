@@ -14,9 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
-import android.util.Log
 import android.widget.Toast
-import androidx.core.location.LocationManagerCompat.getCurrentLocation
 import com.example.weatherapp.databinding.ActivityMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -118,7 +116,7 @@ class MainActivity : AppCompatActivity() {
             val mLastLocation: Location? = locationResult.lastLocation
             mLatitude = mLastLocation?.latitude
             mLongitude = mLastLocation?.longitude
-            Log.i("LatLong", "Latitude: $mLatitude Longitude: $mLongitude")
+            getWeatherInCurrentLocation()
         }
     }
 
@@ -131,6 +129,14 @@ class MainActivity : AppCompatActivity() {
         mFusedLocationProviderClient.requestLocationUpdates(
             locationRequest, mLocationCallBack, Looper.myLooper()
         )
+    }
+
+    private fun getWeatherInCurrentLocation() {
+        if (Constants.isNetworkAvailable(this)) {
+
+        } else {
+            Toast.makeText(this, "No internet connection available!", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }

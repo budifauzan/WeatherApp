@@ -3,6 +3,7 @@ package com.example.weatherapp
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -14,8 +15,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import com.example.weatherapp.databinding.ActivityMainBinding
+import com.example.weatherapp.models.APIResponse
+import com.example.weatherapp.network.WeatherService
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
@@ -25,9 +29,15 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null
+    private var mDialog: Dialog? = null
 
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
 
@@ -133,9 +143,59 @@ class MainActivity : AppCompatActivity() {
 
     private fun getWeatherInCurrentLocation() {
         if (Constants.isNetworkAvailable(this)) {
+            val retrofit: Retrofit = Retrofit.Builder().baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build()
+
+            val weatherService: WeatherService = retrofit.create(WeatherService::class.java)
+
+            val call: Call<APIResponse> = weatherService.getWeather(
+                mLatitude!!, mLongitude!!, Constants.METRIC_UNIT, Constants.API_KEY
+            )
+
+            showCustomDialog()
+            call.enqueue(object : Callback<APIResponse> {
+                override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
+                    if (response.isSuccessful) {
+                        val weatherList: APIResponse? = response.body()
+                        Log.i("Response", weatherList.toString())
+                        hideProgressDialog()
+                    } else {
+                        when (response.code()) {
+                            400 -> {
+                                Log.e("Error 400", "Bad Connection")
+                            }
+                            404 -> {
+                                Log.e("Error 404", "Not Found")
+                            }
+                            else -> {
+                                Log.e("Error", "Generic Error")
+                            }
+                        }
+                        hideProgressDialog()
+                    }
+                }
+
+                override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                    Log.e("Retrofit failure", t.message.toString())
+                    hideProgressDialog()
+                }
+
+            })
 
         } else {
             Toast.makeText(this, "No internet connection available!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun showCustomDialog() {
+        mDialog = Dialog(this)
+        mDialog!!.setContentView(R.layout.dialog_custom_progress)
+        mDialog!!.show()
+    }
+
+    private fun hideProgressDialog() {
+        if (mDialog != null) {
+            mDialog!!.dismiss()
         }
     }
 

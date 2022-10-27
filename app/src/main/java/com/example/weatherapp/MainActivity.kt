@@ -11,6 +11,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.location.LocationRequest
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
@@ -157,7 +158,7 @@ class MainActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
                     if (response.isSuccessful) {
                         val weatherList: APIResponse? = response.body()
-                        Log.i("Response", weatherList.toString())
+                        setupUI(weatherList!!)
                         hideProgressDialog()
                     } else {
                         when (response.code()) {
@@ -197,6 +198,28 @@ class MainActivity : AppCompatActivity() {
         if (mDialog != null) {
             mDialog!!.dismiss()
         }
+    }
+
+    private fun setupUI(weatherList: APIResponse) {
+        for (i in weatherList.weather.indices) {
+            binding?.tvWeather?.text = weatherList.weather[i].main
+            binding?.tvCondition?.text = weatherList.weather[i].description
+            val temp =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    weatherList.main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
+                } else {
+                    weatherList.main.temp.toString() + getUnit(application.resources.configuration.locale.toString())
+                }
+            binding?.tvDegree?.text = temp
+        }
+    }
+
+    private fun getUnit(value: String): String {
+        var symbol = "°C"
+        if (value == "US" || value == "LR" || value == "MM") {
+            symbol = "°F"
+        }
+        return symbol
     }
 
 }

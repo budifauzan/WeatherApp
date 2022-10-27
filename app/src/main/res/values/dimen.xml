@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="iv_activity_main_icon_width">56dp</dimen>
+    <dimen name="iv_activity_main_icon_height">56dp</dimen>
+    <dimen name="iv_activity_main_corner_radius">8dp</dimen>
+</resources>

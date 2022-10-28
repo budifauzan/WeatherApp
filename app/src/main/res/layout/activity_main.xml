@@ -83,32 +83,33 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv_degree"
+                android:id="@+id/tv_temp"
                 style="@style/TextAppearance.MaterialComponents.Body1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:textAlignment="viewEnd"
-                app:layout_constraintBottom_toTopOf="@+id/tv_percent"
+                app:layout_constraintBottom_toTopOf="@+id/tv_humidity"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/iv_humidity"
                 app:layout_constraintTop_toTopOf="@+id/iv_humidity"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Degree" />
 
             <TextView
-                android:id="@+id/tv_percent"
+                android:id="@+id/tv_humidity"
                 style="@style/TextAppearance.MaterialComponents.Body2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="viewEnd"
                 android:textColor="@android:color/darker_gray"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_humidity"
-                app:layout_constraintEnd_toEndOf="@+id/tv_degree"
-                app:layout_constraintStart_toStartOf="@+id/tv_degree"
-                app:layout_constraintTop_toBottomOf="@+id/tv_degree"
-                tools:text="Percent" />
+                app:layout_constraintEnd_toEndOf="@+id/tv_temp"
+                app:layout_constraintStart_toStartOf="@+id/tv_temp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_temp"
+                tools:text="Humidity" />
 
             <ImageView
                 android:id="@+id/iv_humidity"
@@ -217,13 +218,13 @@
                 style="@style/TextAppearance.MaterialComponents.Body2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:text="@string/tv_activity_main_wind_speed"
                 android:textAlignment="viewEnd"
                 android:textColor="@android:color/darker_gray"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_wind"
                 app:layout_constraintEnd_toEndOf="@+id/tv_wind"
                 app:layout_constraintStart_toStartOf="@+id/tv_wind"
-                app:layout_constraintTop_toBottomOf="@+id/tv_wind"
-                tools:text="Miles/hour" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_wind" />
 
             <ImageView
                 android:id="@+id/iv_wind"
@@ -332,23 +333,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="@string/tv_activity_main_sunrise"
                 android:textColor="@android:color/darker_gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/imageView5"
                 app:layout_constraintStart_toStartOf="@+id/imageView5"
-                app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView5"
+                tools:text="Sunrise" />
 
             <TextView
                 android:id="@+id/tv_sunset"
                 style="@style/TextAppearance.MaterialComponents.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tv_activity_main_sunset"
                 android:textColor="@android:color/darker_gray"
                 app:layout_constraintEnd_toEndOf="@+id/imageView6"
                 app:layout_constraintStart_toStartOf="@+id/imageView6"
-                app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView6"
+                tools:text="Sunset" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

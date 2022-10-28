@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Weather App</string>
     <string name="dialog_custom_progress_loading">Loading…</string>
-    <string name="tv_activity_main_sunrise">Sunrise</string>
-    <string name="tv_activity_main_sunset">Sunset</string>
+    <string name="tv_activity_main_wind_speed">miles/hour</string>
+    <string name="menu_main_action_title">Refresh</string>
 </resources>
